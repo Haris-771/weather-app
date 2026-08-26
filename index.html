@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+
+  <body>
+    <header class="header">
+      <div class="location-container">
+        <h1 class="city-name"><span id="location">City</span> / <span id="country">Country</span></h1>
+        <p class="date-time" id="date-time">Wed, Aug 2026, 00:00</p>
+      </div>
+
+      <form class="search-container" id="search-form">
+        <input
+          class="search-input"
+          id="search-bar"
+          type="search"
+          placeholder="Search city"
+          aria-label="Search city"
+          />
+          <button class="search-button" type="submit" aria-label="Search">
+          &#128269;
+          </button>
+
+          <ul class="suggestions-list" id="suggestions-list"></ul>
+      </form>
+    </header>
+
+    <div class="hero-temp">
+      <span class="temp">
+        <span id="main-temperature">0</span>° C
+        <img id="weather-icon" src="" alt=""></img>
+      </span>
+      
+      <div class="more-container">
+      <p class="more-info">
+        <span id="weather-main">Weather</span>
+      </p>
+      <p class="more-info">Humidity: 
+        <span id="humidity">N/A</span>
+      </p>
+      <p class="more-info">Feels Like: 
+        <span id="feels-like">N/A</span>
+      </p>
+      <p class="more-info">Wind: 
+        <span id="wind">N/A</span>
+      </p>
+      <p class="more-info">UV: 
+        <span id="uv">N/A</span>
+      </p>
+      </div>
+    </div>
+
+    <main class="bottom-sheet">
+      <div class="tabs-container">
+        <button class="tab-btn active" data-tab="today">Today</button>
+        <button class="tab-btn" data-tab="tomorrow">Tomorrow</button>
+        <button class="tab-btn" data-tab="week">Week</button>
+      </div>
+
+      <div id="today-tab" class="tab-content active">
+        <div id="today-container" class="hourly-scroll"></div>
+      </div>
+
+      <div id="tomorrow-tab" class="tab-content">
+        <div id="tomorrow-container" class="hourly-scroll"></div>
+      </div>
+
+      <div id="week-tab" class="tab-content">
+        <div id="week-container" class="weekly-container"></div>
+      </div>
+    </main>
+
+    <script src="config.js"></script>
+    <script src="script.js" defer></script>
+  </body>
+</html>

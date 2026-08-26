@@ -1,0 +1,2 @@
+# Exclude API key configuration from Git tracking
+config.js
