@@ -11,29 +11,37 @@
   <body>
     <header class="header">
       <div class="location-container">
-        <h1 class="city-name"><span id="location">City</span> / <span id="country">Country</span></h1>
+        <h1 class="city-name"><span id="location">Loading...</span> / <span id="country"></span></h1>
         <p class="date-time" id="date-time">Wed, Aug 2026, 00:00</p>
       </div>
 
-      <form class="search-container" id="search-form">
-        <input
-          class="search-input"
-          id="search-bar"
-          type="search"
-          placeholder="Search city"
-          aria-label="Search city"
-          />
-          <button class="search-button" type="submit" aria-label="Search">
-          &#128269;
-          </button>
+      <div class="nav-bar">
+        <form class="search-container" id="search-form">
+          <div class="search-box">
+            <input
+            class="search-input"
+            id="search-bar"
+            type="search"
+            placeholder="Search city"
+            aria-label="Search city"
+            autocomplete="off"
+            />
+            <button class="search-button" id="search-btn" type="button" aria-label="Search">
+            🔍</button>
+          </div>
 
           <ul class="suggestions-list" id="suggestions-list"></ul>
-      </form>
+        </form>
+
+        <button type="button" id="unit-toggle" class="unit-toggle-btn">°F</button>
+      </div>
     </header>
+
+    <div id="error-banner" class="error-banner hidden"></div>
 
     <div class="hero-temp">
       <span class="temp">
-        <span id="main-temperature">0</span>° C
+        <span id="main-temperature">0</span>
         <img id="weather-icon" src="" alt=""></img>
       </span>
       
@@ -53,6 +61,18 @@
       <p class="more-info">UV: 
         <span id="uv">N/A</span>
       </p>
+      </div>
+    </div>
+
+    <div id="astro-card" class="astro-card">
+      <div class="astro-item">
+        <span>🌅 Sunrise</span>
+        <span id="sunrise-time">--:--</span>
+      </div>
+
+      <div class="astro-item">
+        <span>🌇 Sunset</span>
+        <span id="sunset-time">--:--</span>
       </div>
     </div>
 

@@ -3,7 +3,7 @@
   --card-bg-default: #33406c;
   --card-bg-active: #233e82;
   --text-white: #ffffff;
-  --text-muted: #5e6c9c;
+  --text-muted: #9baeeb;
   --border-active: #3b82f6;
   --rain: #63b3ed;
 } 
@@ -12,15 +12,19 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: system-ui;
 }
 
-body{
+body {
+  margin: 0;
+  padding: 10px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   min-height: 100vh;
-  padding: 20px;
   color: var(--text-white);
   background: linear-gradient(180deg, #101e38 0%, #1e3a5f 50%, #2b4c7e 100%);
   background-attachment: fixed;
+  position: relative;
+  overflow-x: hidden;
+  transition: background 1s ease-in-out;
 }
 
 .header{
@@ -40,22 +44,47 @@ body{
   margin-top: 5px;
 }
 
+.nav-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .search-container {
-  width: 50%;
+  position: relative;
+}
+
+.search-box {
   position: relative;
   display: flex;
   align-items: center;
+  height: 40px;
+  width: 40px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .search-input {
+  width: 0;
+  height: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 0.95rem;
+  border-radius: 20px;
+  opacity: 0;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.4s ease,
+              opacity 0.3s ease;
+}
+.search-box.active .search-input {
   width: 100%;
-  color: var(--text-white);
-  font-size: 0.8rem;
   padding: 7px 10px;
-  background-color: var(--bg-dark-blue);
-  border: 1px solid #cccccc;
-  border-radius: 6px;
-  padding-right: 38px;
+  opacity: 1;
+}
+.search-box.active {
+  width: 220px;
 }
 .search-input::placeholder {
   color: var(--text-muted);
@@ -68,27 +97,37 @@ body{
 
 .search-button {
   position: absolute;
-  right: 6px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: transparent;
+  right: 0;
+  width: 40px;
+  height: 40px;
   border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text-white);
   cursor: pointer;
-  padding: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
-  transition: color 0.2s ease, background-color 0.2s ease;
+  z-index: 2;
+  transition: background 0.2s ease;
+}
+.search-button:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 
-.search-button:hover,
-.search-button:focus-visible {
-  background-color: var(--card-bg-active);
+.unit-toggle-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text-white);
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease;
 }
-.search-button:focus-visible {
-  outline: 2px solid var(--border-active);
-  outline-offset: -2px;
+.unit-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .suggestions-list{
@@ -121,6 +160,21 @@ body{
   border-bottom: none;
 }
 
+.error-banner {
+  background-color: rgba(239, 68, 68, 0.2);
+  border: 1px solid #ef4444;
+  color: #fca5a5;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  width: 70%;
+  margin: 12px auto;
+}
+
+.error-banner.hidden {
+  display: none;
+}
+
 .hero-temp{
   padding: 0 14px;
   margin-top: 8px;
@@ -146,12 +200,29 @@ body{
   line-height: 1.3;
 }
 
+.astro-card {
+  display: flex;
+  justify-content: space-around;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 12px;
+  margin-top: 50px;
+}
+
+.astro-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9rem;
+}
+
 .bottom-sheet{
-  background-color: var(--bg-dark-blue);
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
   width: 100%;
   padding: 15px;
-  margin-top: 100px;
+  margin-top: 50px;
 }
 
 .tabs-container{
@@ -281,13 +352,54 @@ body{
   color: #a0aec0;
 }
 
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.05) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton-card {
+  width: 76px;
+  height: 110px;
+  flex: 0 0 auto;
+}
+
+.skeleton-row {
+  width: 100%;
+  height: 48px;
+  margin-bottom: 8px;
+}
+
 @media screen and (min-width: 720px) {
   .header{
     padding: 16px 14px;
   }
 
-  .search-container { 
-    width: 25%;
+  .search-button { 
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .unit-toggle-btn{
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .error-banner{
+    width: 35%;
   }
 
   .daily-row{
@@ -298,3 +410,66 @@ body{
     width: 120px;
   }
 }
+
+/* Subtle atmosphere overlay layer */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 1s ease, background 1s ease;
+  opacity: 0.6;
+}
+
+body.weather-sunny::before {
+  background: radial-gradient(circle at 15% 10%, rgba(251, 191, 36, 0.55) 0%, rgba(245, 158, 11, 0.2) 25%, transparent 65%);
+}
+
+body.weather-night {
+  background: linear-gradient(180deg, #09101f 0%, #12233c 50%, #192d4b 100%);
+}
+body.weather-night::before {
+  background: radial-gradient(
+    circle at 88% 10%, 
+    rgba(224, 242, 254, 0.55) 0%, 
+    rgba(147, 197, 253, 0.2) 20%, 
+    transparent 45%
+  );
+}
+
+body.weather-rainy {
+  background: linear-gradient(180deg, #0b1526 0%, #162a45 50%, #1e3454 100%);
+}
+body.weather-rainy::before {
+  background: radial-gradient(circle at 50% 100%, rgba(148, 163, 184, 0.2) 0%, transparent 60%);
+}
+
+body.weather-cloudy {
+  background: linear-gradient(180deg, #13223d 0%, #1c3352 50%, #244169 100%);
+}
+body.weather-cloudy::before {
+  background: radial-gradient(circle at 50% 0%, rgba(226, 232, 240, 0.12) 0%, transparent 70%);
+}
+
+body.weather-thunder {
+  background: linear-gradient(180deg, #070c17 0%, #0f1c30 50%, #172845 100%);
+}
+body.weather-thunder::before {
+  background: radial-gradient(circle at 50% 20%, rgba(168, 85, 247, 0.18) 0%, transparent 55%);
+}
+
+body.weather-snowy {
+  background: linear-gradient(180deg, #172947 0%, #23436b 50%, #2f5485 100%);
+}
+body.weather-snowy::before {
+  background: radial-gradient(circle at 80% 20%, rgba(224, 242, 254, 0.22) 0%, transparent 50%);
+}
+
+body.weather-foggy::before {
+  background: radial-gradient(circle at 50% 50%, rgba(203, 213, 225, 0.15) 0%, transparent 80%);
+}
+
