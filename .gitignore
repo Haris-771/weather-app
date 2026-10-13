@@ -1,2 +1,3 @@
-# Exclude API key configuration from Git tracking
-config.js
+.env*
+.vercel
+node_modules

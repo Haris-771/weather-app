@@ -68,7 +68,12 @@ function showSkeleton(){
 //fetching data
 async function getWeather(city){
   try{
-    const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${encodeURIComponent(city)}&days=7`);
+    const params = new URLSearchParams({
+      type: 'forecast',
+      q: city,
+      days: '7'
+    });
+    const response = await fetch(`/api/fetch-data?${params}`);
     const data = await response.json();
     return data;
   }
@@ -232,7 +237,11 @@ function updateForecastUI(data){
 //search suggestions
 async function getCitySuggestions(query) {
   try{
-    const response = await fetch(`https://api.weatherapi.com/v1/search.json?key=${API_KEY}&q=${encodeURIComponent(query)}`);
+    const params = new URLSearchParams({
+      type: 'search',
+      q: query
+    });
+    const response = await fetch(`/api/fetch-data?${params}`);
     const data = await response.json();
     return data;
   }
